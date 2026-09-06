@@ -1,0 +1,32 @@
+# Archivos del Sistema Operativo e IDEs
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+*.code-workspace
+
+*.log
+.env
+.env.local
+.env.*.local
+
+# Backend (Java / Maven)
+backend/target/
+backend/*.log
+
+# Frontend 
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.nx/
+frontend/.cache/
+frontend/coverage/
+
+# Postman / Archivos temporales de pruebas
+*.log.json
