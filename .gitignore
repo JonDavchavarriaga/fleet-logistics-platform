@@ -9,6 +9,8 @@
 *.sln
 *.swp
 
+*.copilot
+
 *.code-workspace
 
 *.log
