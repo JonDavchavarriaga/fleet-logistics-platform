@@ -10,6 +10,7 @@ import com.logistics.fleet.repository.ShipmentRepository;
 import com.logistics.fleet.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -68,7 +69,9 @@ class ShipmentServiceTest {
 
         assertEquals(ShipmentStatus.DELIVERED, shipment.getStatus());
         assertEquals(ShipmentStatus.DELIVERED, response.status());
-        verify(shipmentRepository).save(shipment);
+        ArgumentCaptor<Shipment> shipmentCaptor = ArgumentCaptor.forClass(Shipment.class);
+        verify(shipmentRepository).save(shipmentCaptor.capture());
+        assertSame(shipment, shipmentCaptor.getValue());
     }
 
     @Test

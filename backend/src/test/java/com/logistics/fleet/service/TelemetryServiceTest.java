@@ -1,12 +1,14 @@
 package com.logistics.fleet.service;
 
 import com.logistics.fleet.model.dto.LocationPingDto;
+import com.logistics.fleet.model.entity.LocationLog;
 import com.logistics.fleet.model.entity.User;
 import com.logistics.fleet.model.enums.Role;
 import com.logistics.fleet.repository.LocationLogRepository;
 import com.logistics.fleet.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,8 +37,12 @@ class TelemetryServiceTest {
 
         telemetryService.recordLocation(driver.getEmail(), new LocationPingDto(90.0, -180.0));
 
-        verify(locationLogRepository).save(argThat(log ->
-                log.getDriver() == driver && log.getLatitude().equals(90.0) && log.getLongitude().equals(-180.0)));
+        ArgumentCaptor<LocationLog> locationCaptor = ArgumentCaptor.forClass(LocationLog.class);
+        verify(locationLogRepository).save(locationCaptor.capture());
+        LocationLog savedLocation = locationCaptor.getValue();
+        assertSame(driver, savedLocation.getDriver());
+        assertEquals(90.0, savedLocation.getLatitude());
+        assertEquals(-180.0, savedLocation.getLongitude());
     }
 
     @Test

@@ -31,7 +31,7 @@ public class DataInitializer {
             if (userRepository.count() > 0) {
                 return;
             }
-            User dispatcher = userRepository.save(Objects.requireNonNull(User.builder()
+            userRepository.save(Objects.requireNonNull(User.builder()
                     .email("admin@fleet.com")
                     .password(passwordEncoder.encode("admin123"))
                     .fullName("Fleet Administrator")
