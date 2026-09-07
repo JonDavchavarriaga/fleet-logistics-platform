@@ -6,8 +6,11 @@ import com.logistics.fleet.model.entity.User;
 import com.logistics.fleet.repository.LocationLogRepository;
 import com.logistics.fleet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +24,12 @@ public class TelemetryService {
         validateCoordinates(ping);
         User driver = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        locationLogRepository.save(LocationLog.builder()
+        LocationLog locationLog = Objects.requireNonNull(LocationLog.builder()
                 .driver(driver)
                 .latitude(ping.latitude())
                 .longitude(ping.longitude())
                 .build());
+        locationLogRepository.save(locationLog);
     }
 
     private void validateCoordinates(LocationPingDto ping) {

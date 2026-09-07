@@ -62,7 +62,7 @@ class ShipmentServiceTest {
         Shipment shipment = shipment(11L, ShipmentStatus.PENDING);
         when(userRepository.findByEmail(driver.getEmail())).thenReturn(Optional.of(driver));
         when(shipmentRepository.findByIdAndDriverId(11L, 7L)).thenReturn(Optional.of(shipment));
-        when(shipmentRepository.save(shipment)).thenReturn(shipment);
+        doReturn(shipment).when(shipmentRepository).save(any(Shipment.class));
 
         ShipmentResponseDto response = shipmentService.updateStatus(11L, driver.getEmail(), ShipmentStatus.DELIVERED);
 

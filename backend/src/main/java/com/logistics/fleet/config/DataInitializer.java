@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Objects;
+
 @Configuration
 @Profile("dev")
 @RequiredArgsConstructor
@@ -29,21 +31,21 @@ public class DataInitializer {
             if (userRepository.count() > 0) {
                 return;
             }
-            User dispatcher = userRepository.save(User.builder()
+            User dispatcher = userRepository.save(Objects.requireNonNull(User.builder()
                     .email("admin@fleet.com")
                     .password(passwordEncoder.encode("admin123"))
                     .fullName("Fleet Administrator")
                     .role(Role.ROLE_DISPATCHER)
                     .status(DriverStatus.ACTIVE)
-                    .build());
-            User driver = userRepository.save(User.builder()
+                    .build()));
+            User driver = userRepository.save(Objects.requireNonNull(User.builder()
                     .email("driver@fleet.com")
                     .password(passwordEncoder.encode("driver123"))
                     .fullName("Fleet Driver")
                     .role(Role.ROLE_DRIVER)
                     .status(DriverStatus.ACTIVE)
-                    .build());
-            shipmentRepository.save(Shipment.builder()
+                    .build()));
+            shipmentRepository.save(Objects.requireNonNull(Shipment.builder()
                     .trackingNumber("FLT-0001")
                     .driver(driver)
                     .destinationAddress("Calle 80 # 10-20, Bogota")
@@ -51,8 +53,8 @@ public class DataInitializer {
                     .longitude(-74.072092)
                     .cargoDetails("Paquete general")
                     .status(ShipmentStatus.PENDING)
-                    .build());
-            shipmentRepository.save(Shipment.builder()
+                    .build()));
+            shipmentRepository.save(Objects.requireNonNull(Shipment.builder()
                     .trackingNumber("FLT-0002")
                     .driver(driver)
                     .destinationAddress("Carrera 7 # 72-41, Bogota")
@@ -60,7 +62,7 @@ public class DataInitializer {
                     .longitude(-74.054555)
                     .cargoDetails("Documentos urgentes")
                     .status(ShipmentStatus.PENDING)
-                    .build());
+                    .build()));
         };
     }
 }
