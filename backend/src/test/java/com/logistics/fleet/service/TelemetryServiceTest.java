@@ -31,6 +31,7 @@ class TelemetryServiceTest {
     private TelemetryService telemetryService;
 
     @Test
+    @SuppressWarnings("null")
     void recordLocationSavesValidCoordinatesForDriver() {
         User driver = User.builder().email("driver@example.com").role(Role.ROLE_DRIVER).build();
         when(userRepository.findByEmail(driver.getEmail())).thenReturn(Optional.of(driver));

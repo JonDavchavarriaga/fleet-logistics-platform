@@ -58,6 +58,7 @@ class ShipmentServiceTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void updateStatusSavesAllowedStatus() {
         User driver = user(7L, "driver@example.com");
         Shipment shipment = shipment(11L, ShipmentStatus.PENDING);
