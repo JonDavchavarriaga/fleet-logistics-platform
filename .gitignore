@@ -29,6 +29,9 @@ frontend/build/
 frontend/.nx/
 frontend/.cache/
 frontend/coverage/
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
 
 # Postman / Archivos temporales de pruebas
 *.log.json

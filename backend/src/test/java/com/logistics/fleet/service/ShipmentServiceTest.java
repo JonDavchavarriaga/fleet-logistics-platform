@@ -10,6 +10,7 @@ import com.logistics.fleet.repository.ShipmentRepository;
 import com.logistics.fleet.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -57,18 +58,21 @@ class ShipmentServiceTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void updateStatusSavesAllowedStatus() {
         User driver = user(7L, "driver@example.com");
         Shipment shipment = shipment(11L, ShipmentStatus.PENDING);
         when(userRepository.findByEmail(driver.getEmail())).thenReturn(Optional.of(driver));
         when(shipmentRepository.findByIdAndDriverId(11L, 7L)).thenReturn(Optional.of(shipment));
-        when(shipmentRepository.save(shipment)).thenReturn(shipment);
+        doReturn(shipment).when(shipmentRepository).save(any(Shipment.class));
 
         ShipmentResponseDto response = shipmentService.updateStatus(11L, driver.getEmail(), ShipmentStatus.DELIVERED);
 
         assertEquals(ShipmentStatus.DELIVERED, shipment.getStatus());
         assertEquals(ShipmentStatus.DELIVERED, response.status());
-        verify(shipmentRepository).save(shipment);
+        ArgumentCaptor<Shipment> shipmentCaptor = ArgumentCaptor.forClass(Shipment.class);
+        verify(shipmentRepository).save(shipmentCaptor.capture());
+        assertSame(shipment, shipmentCaptor.getValue());
     }
 
     @Test
